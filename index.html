@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASCII-Converter</title>
+    <link rel="stylesheet" href="ascii.css">
+</head>
+<body>
+    <main class="converter">
+        <h1>ASCII ↔ Binary/Hex/Octal Converter </h1>
+        <section>
+            <h2>1. Character to Values</h2>
+            <label for="chartInput">Enter Character:</label>
+            <input type="text" id="charInput" maxlength="1" placeholder="e.g. M" />
+            <button onClick="convertFromChar()">Convert !</button>
+
+            <div class="output" id="chartOutput">
+                <p><strong>ASCII (Decimal):</strong> <span id="decOut">-</span></p>
+                <p><strong>Binary:</strong> <span id="binOut">-</span></p>
+                <p><strong>Octal:</strong> <span id="octOut">-</span></p>
+                <p><strong>Hex:</strong> <span id="hexOut">-</span></p>
+            </div>
+        </section>
+
+        <hr />
+
+        <section>
+            <h2>2. Values to Character</h2>
+            <label for="valueInput">Enter ASCII, Binary, Octal, or Hex:</label>
+            <input type="text" id="valueInput" placeholder="e.g. 65, 101, 1000001, 45" />
+            <select id="format">
+                <option value="decimal">Decimal (ASCII)</option>
+                <option value="binary">Binary</option>
+                <option value="octal">Octal</option>
+                <option value="hex">Hexadecimal</option>
+            </select>
+            <button onclick="convertToChar()">Convert !</button>
+
+            <div class="output" id="reverseOutput">
+                <p><strong>Character:</strong> <span id="revChar">-</span></p>
+            </div>
+        </section>
+    </main>
+
+    <script src="ascii.js"></script>
+</body>
+</html>
