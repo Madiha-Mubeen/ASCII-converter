@@ -29,10 +29,24 @@ p {
 }
 
 .converter {
-    background:
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 500px;
+    margin: 40px auto;
+    color: #fff;
+    animation: fadeIn 0.8s ease;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    transition: 0.3s ease;
 }
 .converter:hover {
-    box-shadow: 0 0 40px #fff;
+    box-shadow: 
+    0 0 30px rgba(255, 255, 255, 0.6),
+    0 0 60px rgba(0, 255, 255, 0.3),
+    0 0 100px rgba(0, 255, 255, 0.15);
 }
 
 h1, h2 {
@@ -108,7 +122,7 @@ hr {
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateY(10px);
     }
     to {
         opacity: 1;
@@ -136,4 +150,35 @@ select option {
 select:focus {
     outline: none;
     box-shadow: 0 0 5px rgba(0, 0, 255, 0.5);
+}
+
+.ascii-table-section {
+    text-align: center;
+    margin-top: 50px;
+}
+
+#ascii-search {
+    padding: 20px 15px;
+    border-radius: 10px;
+    border: none;
+    margin-bottom: 20px;
+    width: 80%;
+    max-width: 400px;
+}
+.ascii-table-wrapper {
+    overflow-x: auto;
+}
+#ascii-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+#ascii-table th, #ascii-table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    color: #fff;
+}
+#ascii-table th {
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(6px);
 }

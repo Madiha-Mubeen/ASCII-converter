@@ -61,3 +61,55 @@ document.querySelectorAll('.output span').forEach(span => {
         });
     });
 });
+
+const tableBody = document.getElementById("ascii-body");
+
+function toBinary(n) {
+    return n.toString(2).padStart(8, "0");
+}
+
+function toOctal(n) {
+    return n.toString(8);
+}
+
+function toHex(n) {
+    return n.toString(16).toUpperCase().padStart(2, "0");
+}
+
+function isPrintable(charCode) {
+    return charCode >= 32 && charCode <= 126;
+}
+
+for (let i = 0; i <= 255; i++) {
+    const row = document.createElement("tr");
+
+    const decimal = document.createElement("td");
+    const char = document.createElement("td");
+    const octal = document.createElement("td");
+    const hex = document.createElement("td");
+
+    decimal.textContent = i;
+    char.textContent = isPrintable(i) ? String.fromCharCode(i) : "␀";
+    binary.textContent = toBimary(i);
+    octal.textContent = toOctal(i);
+    hex.textContent = toHex(i);
+
+    row.appendChild(decimal);
+    row.appendChild(char);
+    row.appendChild(binary);
+    row.appendChild(hex);
+
+    tableBody.appendChild(row);
+}
+
+//Searching Logic
+document.getElementById("ascii-search").addEventListener("input", function () {
+    const query = this.value.toLowerCase();
+    const row = tableBody.querySelectorAll("tr");
+
+   rows.forEach(row => {
+    const cells = row.querySelectorAll("td");
+    const rowText = Array.from(cells).map(cell => cell.textContent.toLowerCase()).join ("");
+    row.style.display = rowText.includes(query) ? "" : "none";
+    });
+});
