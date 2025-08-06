@@ -10,8 +10,8 @@ function convertFromChar() {
 const code = charInput.charCodeAt(0);
 document.getElementById("decOut").textContent = code;
 document.getElementById("binOut").textContent = code.toString(2).padStart(8, '0');
-document.getElementById("octOut").textContent = codetoString(8);
-document.getElementById("hexOut").textContetn = code.toString(16),toUpperCase();
+document.getElementById("octOut").textContent = code.toString(8);
+document.getElementById("hexOut").textContent = code.toString(16).toUpperCase();
 
 }
 
@@ -45,3 +45,19 @@ function convertToChar () {
         document.getElementById("revChar").textContent = "Invalid input";
     }
 }
+
+document.querySelectorAll('.output span').forEach(span => {
+    span.addEventListener('click', () => {
+        navigator.clipboard.writeText(span.textContent).then(() => {
+
+        });   
+    });
+});
+
+document.querySelectorAll('.output span').forEach(span => {
+    span.addEventListener('click', () => {
+        navigator.clipboard.writeText(span.textContent).then (() => {
+            alert(`copied: ${span.textContent}`);
+        });
+    });
+});
