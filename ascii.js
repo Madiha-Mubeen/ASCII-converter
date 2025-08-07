@@ -48,14 +48,6 @@ function convertToChar () {
 
 document.querySelectorAll('.output span').forEach(span => {
     span.addEventListener('click', () => {
-        navigator.clipboard.writeText(span.textContent).then(() => {
-
-        });   
-    });
-});
-
-document.querySelectorAll('.output span').forEach(span => {
-    span.addEventListener('click', () => {
         navigator.clipboard.writeText(span.textContent).then (() => {
             alert(`copied: ${span.textContent}`);
         });
@@ -85,12 +77,13 @@ for (let i = 0; i <= 255; i++) {
 
     const decimal = document.createElement("td");
     const char = document.createElement("td");
+    const binary = document.createElement("td");
     const octal = document.createElement("td");
     const hex = document.createElement("td");
 
     decimal.textContent = i;
     char.textContent = isPrintable(i) ? String.fromCharCode(i) : "␀";
-    binary.textContent = toBimary(i);
+    toBinary.textContent = toBinary(i);
     octal.textContent = toOctal(i);
     hex.textContent = toHex(i);
 
@@ -107,9 +100,10 @@ document.getElementById("ascii-search").addEventListener("input", function () {
     const query = this.value.toLowerCase();
     const row = tableBody.querySelectorAll("tr");
 
-   rows.forEach(row => {
+   row.forEach(row => {
     const cells = row.querySelectorAll("td");
     const rowText = Array.from(cells).map(cell => cell.textContent.toLowerCase()).join ("");
     row.style.display = rowText.includes(query) ? "" : "none";
     });
 });
+

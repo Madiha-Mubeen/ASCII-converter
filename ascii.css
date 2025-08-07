@@ -1,19 +1,48 @@
 @import url('https://fonts.googleapis.com/css2?family=Bitcount+Prop+Single:wght@100..900&family=Nosifer&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Playwrite+AU+NSW:wght@100..400&display=swap'); 
+:root {
+    --bg-color: #f0f0f0;
+    --text-color: #000000;
+    --card-bg: white;
+    --button-bg: #333;
+    --button-text: white;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+body.dark {
+    --bg-color: #111;
+    --text-color: #f0f0f0;
+    --card-bg: #1e1e1e;
+    --button-bg: #eee;
+    --button-text: #111;
+}
 body {
     font-family: 'Bitcount Prop Single', Arial, sans-serif;
     background-color: #080344;
-    color: #fff;
+    color: var(--text-color);
+    transition: background 0.3s, color 0.3s;
     padding: 20px;
     margin: 0;
   
 }
 
+.container, .card {
+    background-color: var(--card-bg);
+}
+
+button {
+    background-color: var(--card-bg);
+    color: var(--button-text);
+    border: none;
+    padding: 10px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: left;
+}
 body {
     font-family: 'Bitcount Prop Single', sans-serif;
 }
@@ -181,4 +210,86 @@ select:focus {
 #ascii-table th {
     background-color: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(6px);
+}
+
+.theme-toggle {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    z-index: 1000;
+    color: var(--text-color);
+    transition: transform 0.3s;
+}
+.theme-toggle:hover {
+    transform: scale(1.1);
+}
+
+.theme-toggle-wrapper {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1000;
+    transform: rotate(0deg);
+    transition: transform 0.4s ease;
+}
+.theme-toggle-wrapper.rotate {
+    transform: rotate(360deg);
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background-color: #ccc;
+    border-radius: 34px;
+    transition: 0.4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.4s;
+}
+
+input:checked + .slider {
+    background-color: #2196f3;
+}
+input:checked + .slider:before {
+    transform: translateX(24px);
+}
+
+/*Sticky Table Headers */
+.ascii-table-wrapper {
+    overflow-x: auto;
+    max-height: 400px;
+}
+#ascii-table thead th {
+    position: sticky;
+    top: 0;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(6px);
+    z-index: 1;
 }

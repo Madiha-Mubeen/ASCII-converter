@@ -6,10 +6,22 @@
     <title>ASCII-Converter</title>
     <link rel="stylesheet" href="ascii.css">
     <link rel="icon" href="data:,">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
+
+    <div class="theme-toggle-wrapper">
+        <label class="switch">
+            <input type="checkbox" id="theme-toggle">
+            <span class="slider"></span>
+        </label>
+    </div>
+ 
+    <audio src="" id="themeSound"  preload="auto"></audio>
+    
     <main class="converter">
         <h1>ASCII ↔ Binary/Hex/Octal Converter </h1>
+       
         <section>
             <h2>1. Character to Values</h2>
             <label for="chartInput">Enter Character:</label>
