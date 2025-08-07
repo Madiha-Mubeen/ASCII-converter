@@ -83,13 +83,14 @@ for (let i = 0; i <= 255; i++) {
 
     decimal.textContent = i;
     char.textContent = isPrintable(i) ? String.fromCharCode(i) : "␀";
-    toBinary.textContent = toBinary(i);
+    binary.textContent = toBinary(i);
     octal.textContent = toOctal(i);
     hex.textContent = toHex(i);
 
     row.appendChild(decimal);
     row.appendChild(char);
     row.appendChild(binary);
+    row.appendChild(octal);
     row.appendChild(hex);
 
     tableBody.appendChild(row);
@@ -107,3 +108,29 @@ document.getElementById("ascii-search").addEventListener("input", function () {
     });
 });
 
+const toggleCheckbox = document.getElementById("theme-toggle");
+const themeWrapper = document.querySelector(".theme-toggle-wrapper");
+const sound = document.getElementById("themeSound");
+
+//Load saved theme 
+const savedTheme = localStorage.getItem("theme");
+const isDarkSaved = savedTheme === "dark";
+document.body.classList.toggle("dark", isDarkSaved);
+toggleCheckbox.checked = isDarkSaved;
+
+toggleCheckbox.addEventListener("change", () => {
+    const isDark = toggleCheckbox.checked;
+
+    document.body.classList.toggle("dark", isDark);
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+
+    if (themeWrapper) {
+        themeWrapper.classList.add("rotate");
+        setTimeout(() => themeWrapper.classList.remove("rotate"), 500);
+    }
+
+    if (sound) {
+        sound.currentTime = 0;
+        sound.play();
+    }
+});

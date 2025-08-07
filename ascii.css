@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Bitcount+Prop+Single:wght@100..900&family=Nosifer&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Playwrite+AU+NSW:wght@100..400&display=swap'); 
 :root {
-    --bg-color: #f0f0f0;
-    --text-color: #000000;
-    --card-bg: white;
-    --button-bg: #333;
-    --button-text: white;
+    --bg-color: #f9f9ff;
+    --text-color: #111;
+    --card-bg: #ffffffcc;
+    --button-bg: #3a3a3a;
+    --button-text: #fff;
 }
 
 * {
@@ -29,7 +29,13 @@ body {
     margin: 0;
   
 }
-
+body:not(.dark) {
+    --bg-color: #f0f0f0;
+    --text-color: #000000;
+    --card-bg: white;
+    --button-bg: #333;
+    --button-text: white;
+}
 .container, .card {
     background-color: var(--card-bg);
 }
@@ -281,6 +287,29 @@ input:checked + .slider:before {
     transform: translateX(24px);
 }
 
+/*Light Theme Overrides */
+body.light {
+    background: #f0f0f0;
+    color: #111;
+}
+body.light .converter {
+    background: rgba(255, 255, 255, 0.85);
+    color: #111;
+    box-shadow: 0 0 20px #aaa;
+}
+body.light input,
+body.light textarea,
+body.light select {
+    background-color: #111;
+    color: #fff;
+}
+body.light button {
+    background-color: #111;
+    color: #fff;
+}
+body.light button:hover {
+    background-color: #333;
+}
 /*Sticky Table Headers */
 .ascii-table-wrapper {
     overflow-x: auto;
