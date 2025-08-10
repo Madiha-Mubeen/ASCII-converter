@@ -112,25 +112,33 @@ const toggleCheckbox = document.getElementById("theme-toggle");
 const themeWrapper = document.querySelector(".theme-toggle-wrapper");
 const sound = document.getElementById("themeSound");
 
-//Load saved theme 
+//Load saved theme on page load 
 const savedTheme = localStorage.getItem("theme");
 const isDarkSaved = savedTheme === "dark";
+
+//Apply saved theme on page loading 
 document.body.classList.toggle("dark", isDarkSaved);
 toggleCheckbox.checked = isDarkSaved;
 
+//Theme toggle event
 toggleCheckbox.addEventListener("change", () => {
     const isDark = toggleCheckbox.checked;
 
+    //Toggle dark mode class
     document.body.classList.toggle("dark", isDark);
+
+    //Saved theme preference
     localStorage.setItem("theme", isDark ? "dark" : "light");
 
+    //Add rotation effect to switch
     if (themeWrapper) {
         themeWrapper.classList.add("rotate");
         setTimeout(() => themeWrapper.classList.remove("rotate"), 500);
     }
 
-    if (sound) {
+    //Play sound if set
+    if (sound && sound.src) {
         sound.currentTime = 0;
-        sound.play();
+        sound.play().catch(err => console.warn("OOPS! Sound play error:", err));
     }
 });
