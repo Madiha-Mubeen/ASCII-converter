@@ -285,27 +285,5 @@ input:checked + .slider:before {
     transform: translateX(24px);
 }
 
-/*Light Theme Overrides *
-body.light {
-    background: #f0f0f0;
-    color: #111;
-}
-body.light .converter {
-    background: rgba(255, 255, 255, 0.85);
-    color: #111;
-    box-shadow: 0 0 20px #aaa;
-}
-body.light input,
-body.light textarea,
-body.light select {
-    background-color: #111;
-    color: #fff;
-}
-body.light button {
-    background-color: #111;
-    color: #fff;
-}
-body.light button:hover {
-    background-color: #333;
-}
-*/
+ 
+ 
