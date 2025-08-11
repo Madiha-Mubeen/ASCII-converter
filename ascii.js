@@ -142,36 +142,37 @@ toggleCheckbox.addEventListener("change", () => {
         sound.play().catch(err => console.warn("OOPS! Sound play error:", err));
     }
 });
-/*
-//matrix rain
-const canvas = document.getElementById("matrixCanvas");
-const ctx = canvas.getContext("2d");
 
-//Full Screen
+//Matrix rain
+const canvas = document.getElementById('matrixRain');
+const ctx = canvas.getContext('2d');
+
+//Match window size
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
 
-//  Characters
-const chars = "0.1".split("");
-const fontSize = 15;
-const columns = canvas.Width / fontSize;
+const letters = 'アァイィウヴエェオカガキギクグケゲコゴサザシジスズセゼソゾタダチッヂツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモヤャユュヨョラリルレロワヰヱヲンABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+const fontSize = 16;
+const columns = Math.floor(canvas.width / fontSize);
+const drops = Array(columns).fill(1);
 
-//Array for rain drops
-let drops = [];
-for (let i = 0; i < columns; i++) {
-    drops[i] = 1;
-}
+//Interactive effect storage
+let cursorChars = [];
+let ripples = [];
+let keyChars = [];
 
-//Draw function
+//Matrix rain draw
 function drawMatrix() {
-    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-    ctx.fillRect(0,0, canvas.width, canvas.height);
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.fillStyle = "#0f0";
-    ctx.font = fontSize + "px monospace";
+    ctx.shadowBlur = 10;
+    ctx.shadowColor = '#a1abe2ff';
+    ctx.fillStyle = '#5683ffff';
+    ctx.font = fontSize + 'px monospace';
 
     for (let i = 0; i < drops.length; i++) {
-        const text = chars[Math.floor(Math.random() * chars.length)];
+        const text = letters.charAt(Math.floor(Math.random() * letters.length));
         ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
         if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
@@ -181,10 +182,80 @@ function drawMatrix() {
     }
 }
 
-setInterval(drawMatrix, 50);
+//Draw interactive effects
+function drawCursorTrail() {
+    cursorChars.forEach((char, index) => {
+        ctx.globalAlpha = char.alpha;
+        ctx.fillText(char.text, char.x, char.y);
+        char.alpha -= 0.02;
+        if (char.alpha <= 0) cursorChars.splice(index, 1);
+    });
+    ctx.globalAlpha = 1;
+}
 
-//Adjust on resize
-window.addEventListener("resize", () => {
+function drawRipples() {
+    ripples.forEach((r, index) => {
+        ctx.globalAlpha = r.alpha;
+        ctx.beginPath();
+        ctx.arc(r.x, r.y, r.radius, 0, Math.PI * 2);
+        ctx.strokeStyle = '#29456eff';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        r.radius += 2;
+        r.alpha -= 0.02;
+        if (r.alpha <= 0) ripples.splice(index, 1);
+    });
+    ctx.globalAlpha = 1;
+}
+
+function drawKeyChars() {
+    keyChars.forEach((char, index) => {
+        ctx.globalAlpha = char.alpha;
+        ctx.fillText(char.text, char.x, char.y);
+        char.alpha -= 0.02;
+        if (char.alpha <= 0) keyChars.splice(index, 1);
+    });
+    ctx.globalAlpha = 1;
+}
+
+//Main draw loop
+function draw() {
+    drawMatrix();
+    drawCursorTrail();
+    drawRipples();
+    drawKeyChars();
+
+    //Scroll down text
+    ctx.shadowBlur = 20;
+    ctx.shadowColor = '#4652beff';
+    ctx.fillStyle = '#b9b3daff';
+    ctx.font = 'bold 32px monospace';
+    ctx.textAlign = 'center';
+    ctx.globalAlpha = 0.8;
+    ctx.fillText('Scroll down to use ASCII Converter', canvas.width / 2, canvas.height / 2);
+    ctx.globalAlpha = 1;
+}
+
+setInterval(draw, 35);
+
+//Event Listeners
+window.addEventListener('mousemove', e => {
+    const text = letters.charAt(Math.floor(Math.random() * letters.length));
+    cursorChars.push({x: e.clientX, y: e.clientY, text, alpha: 1});
+});
+
+window.addEventListener('click', e => {
+    ripples.push({ x: e.clientX, y: e.clientY, radius: 0, alpha: 1});
+});
+
+window.addEventListener('keydown', () => {
+    const text = letters.charAt(Math.floor(Math.random() * letters.length));
+    const x = Math.random() * canvas.width;
+    const y = Math.random() * canvas.height;
+    keyChars.push({x, y, text, alpha: 1});
+});
+
+window.addEventListener('resize', () => {
     canvas.height = window.innerHeight;
     canvas.width = window.innerWidth;
-}); */
+});
