@@ -136,7 +136,6 @@ toggleCheckbox.addEventListener("change", () => {
         setTimeout(() => themeWrapper.classList.remove("rotate"), 500);
     }
 
-    //Play sound if set
     if (sound && sound.src) {
         sound.currentTime = 0;
         sound.play().catch(err => console.warn("OOPS! Sound play error:", err));
@@ -146,51 +145,102 @@ toggleCheckbox.addEventListener("change", () => {
 //Matrix rain
 const canvas = document.getElementById('matrixRain');
 const ctx = canvas.getContext('2d');
-
-//Match window size
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
 
-const letters = 'アァイィウヴエェオカガキギクグケゲコゴサザシジスズセゼソゾタダチッヂツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモヤャユュヨョラリルレロワヰヱヲンABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-const fontSize = 16;
+const letters = "1011101ABC110SDE119QWF4581186AWD1234567";
+const fontSize = 17;
 const columns = Math.floor(canvas.width / fontSize);
 const drops = Array(columns).fill(1);
+let cursorChars = [], ripples = [], keyChars =[];
+let activeMessages = [], explosions = [];
+let scanlineY = 0;
 
-//Interactive effect storage
-let cursorChars = [];
-let ripples = [];
-let keyChars = [];
+const systemMessages = [
+    "ASCII",
+    "CONVERT",
+    "BINARY",
+    "HEXADECIMAL",
+    "OCTAL",
+    "0-7",
+    "0/1",
+    "A-F",
+    "ASCII TABLE"
+];
 
-//Matrix rain draw
+function spawnSystemMessages() {
+    activeMessages.push({
+        text: systemMessages[Math.floor(Math.random() * systemMessages.length)],
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        alpha: 1
+    });
+}
+
+canvas.addEventListener("click", e => {
+    for (let i = 0; i < 40; i++) {
+        explosions.push({
+            x: e.clientX,
+            y: e.clientY,
+            text: letters.charAt(Math.floor(Math.random() * letters.length)),
+            alpha: 1,
+            dx: (Math.random() - 0.5) * 6,
+            dy: (Math.random() - 0.5) * 6
+        });
+    }
+});
+
+function drawScanlines() {
+    ctx.strokeStyle = "rgba(62, 54, 136, 0.5)";
+    for (let y = scanlineY; y < canvas.height; y += 4) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(canvas.width, y);
+        ctx.stroke();
+    }
+    scanlineY = (scanlineY + 0.5) % 4;
+}
+
+function drawSystemMessages() {
+    ctx.font = "bold 21px Bitcount Display";
+    ctx.fillStyle = "#7793dfff";
+    ctx.strokeStyle = "#333333ff";
+    ctx.textAlign ="center";
+    for (let i = activeMessages.length - 1; i >= 0; i--) {
+        let msg = activeMessages[i];
+        ctx.fillStyle = `rgba(119,147,223,${msg.alpha})`;
+        ctx.fillText(msg.text, msg.x, msg.y);
+        msg.alpha -= 0.01;
+        if (msg.alpha <= 0) activeMessages.splice(i, 1);
+    }
+}
+
+function drawExplosions() {
+    ctx.font = "17px cursive";
+    for (let i = explosions.length - 1; i >= 0; i--) {
+        let p = explosions[i];
+        ctx.fillStyle = `rgba(0,255,0,${p.alpha})`;
+        ctx.fillText(p.text, p.x, p.y);
+        p.x += p.dx;
+        p.y += p.dy;
+        if (p.alpha <= 0) explosions.splice(i, 1);
+    }
+}
+
 function drawMatrix() {
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+    ctx.fillStyle = 'rgba(0,0,0,0.15)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-
     ctx.shadowBlur = 10;
-    ctx.shadowColor = '#a1abe2ff';
-    ctx.fillStyle = '#5683ffff';
-    ctx.font = fontSize + 'px monospace';
+    ctx.shadowColor = 'rgba(61, 48, 136, 1)';
+    ctx.fillStyle = 'rgba(90, 63, 153, 1)';
+    ctx.font = fontSize + 'px cursive';
 
     for (let i = 0; i < drops.length; i++) {
         const text = letters.charAt(Math.floor(Math.random() * letters.length));
         ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-            drops[i] = 0;
-        }
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
         drops[i]++;
     }
-}
-
-//Draw interactive effects
-function drawCursorTrail() {
-    cursorChars.forEach((char, index) => {
-        ctx.globalAlpha = char.alpha;
-        ctx.fillText(char.text, char.x, char.y);
-        char.alpha -= 0.02;
-        if (char.alpha <= 0) cursorChars.splice(index, 1);
-    });
-    ctx.globalAlpha = 1;
 }
 
 function drawRipples() {
@@ -198,12 +248,12 @@ function drawRipples() {
         ctx.globalAlpha = r.alpha;
         ctx.beginPath();
         ctx.arc(r.x, r.y, r.radius, 0, Math.PI * 2);
-        ctx.strokeStyle = '#29456eff';
+        ctx.strokeStyle = 'rgba(148, 111, 212, 1)';
         ctx.lineWidth = 2;
         ctx.stroke();
         r.radius += 2;
         r.alpha -= 0.02;
-        if (r.alpha <= 0) ripples.splice(index, 1);
+        if (r.radius <= 0) ripples.splice(index, 1);
     });
     ctx.globalAlpha = 1;
 }
@@ -218,44 +268,35 @@ function drawKeyChars() {
     ctx.globalAlpha = 1;
 }
 
-//Main draw loop
 function draw() {
     drawMatrix();
-    drawCursorTrail();
+    drawScanlines();
+    drawSystemMessages();
+    drawExplosions();
     drawRipples();
     drawKeyChars();
-
-    //Scroll down text
-    ctx.shadowBlur = 20;
-    ctx.shadowColor = '#4652beff';
-    ctx.fillStyle = '#b9b3daff';
-    ctx.font = 'bold 32px monospace';
-    ctx.textAlign = 'center';
-    ctx.globalAlpha = 0.8;
-    ctx.fillText('Scroll down to use ASCII Converter', canvas.width / 2, canvas.height / 2);
-    ctx.globalAlpha = 1;
+    requestAnimationFrame(draw);
 }
 
-setInterval(draw, 35);
+setInterval(spawnSystemMessages, 5000);
+draw();
 
-//Event Listeners
 window.addEventListener('mousemove', e => {
     const text = letters.charAt(Math.floor(Math.random() * letters.length));
-    cursorChars.push({x: e.clientX, y: e.clientY, text, alpha: 1});
+    cursorChars.push({ x: e.clientX, y: e.clientY, text, alpha: 1});
 });
 
 window.addEventListener('click', e => {
-    ripples.push({ x: e.clientX, y: e.clientY, radius: 0, alpha: 1});
+    ripples.push({x: e.clientX, y: e.clientY, radius: 0, alpha: 1});
 });
 
 window.addEventListener('keydown', () => {
     const text = letters.charAt(Math.floor(Math.random() * letters.length));
-    const x = Math.random() * canvas.width;
-    const y = Math.random() * canvas.height;
-    keyChars.push({x, y, text, alpha: 1});
+    keyChars.push({x: Math.random() * canvas.width, y: Math.random() * canvas.height, text, alpha: 1});
 });
 
 window.addEventListener('resize', () => {
     canvas.height = window.innerHeight;
     canvas.width = window.innerWidth;
 });
+
