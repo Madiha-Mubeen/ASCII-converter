@@ -32,4 +32,4 @@ This is an good looking, interactive web app tool that lets the user convert bet
 ## Difficulties I faced:
 While builting this project I mostly faced difficulties with JavaScript, then how and what kind of theme I should Add, how can I make this website useful/helpful for others !! 
 
-[ASCII CONVERTER](https://madiha-mubeen.github.io/ASCII-converter/)
+[ASCII CONVERTER](https://madiha-mubeen.github.io/ASCII-converter/)  <br> [![Athena Award Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Faward.athena.hackclub.com%2Fapi%2Fbadge)](https://award.athena.hackclub.com?utm_source=readme)
