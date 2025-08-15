@@ -296,3 +296,22 @@ input:checked + .slider:before {
     pointer-events: none;
     background: transparent;
 }
+
+@media (max-width: 600px) {
+    h1 {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+    h2 {
+        font-size: 1.2rem;
+    }
+    .theme-toggle-wrapper {
+        top: 0.5rem;
+        right: 0.5rem;
+        transform: scale(0.85);
+    }
+    #ascii-search {
+        width: 100%;
+        font-size: 0.9rem;
+    }
+}
